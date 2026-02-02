@@ -13,7 +13,7 @@ export const userLoginAPI = async(reqBody) => {
     return await commonAPI("POST",`${serverURL}/user-login`,reqBody)
 }
 
-// user login API
+// user google login API
 export const userGoogleLoginAPI = async(reqBody) => {
     return await commonAPI("POST",`${serverURL}/google-user-login`,reqBody)
 }
