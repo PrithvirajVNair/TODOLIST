@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 // following is task schema for task details in MongoDB
-const userSchema = new mongoose.Schema({
+const taskSchema = new mongoose.Schema({
     userId:{
         type:mongoose.Schema.Types.ObjectId,
         required:true,
@@ -23,5 +23,5 @@ const userSchema = new mongoose.Schema({
     }
 })
 
-const users = mongoose.model("users",userSchema)
+const tasks = mongoose.model("tasks",taskSchema)
 module.exports = users
