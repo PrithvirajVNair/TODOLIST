@@ -1,7 +1,9 @@
 import React from 'react'
 import { useState } from 'react'
-import { userLoginAPI, userRegisterAPI } from '../services/allAPIs';
+import { userGoogleLoginAPI, userLoginAPI, userRegisterAPI } from '../services/allAPIs';
 import { useNavigate } from 'react-router-dom';
+import { GoogleLogin } from '@react-oauth/google'
+import { jwtDecode } from 'jwt-decode'
 
 const Auth = ({ register, login }) => {
 
@@ -48,8 +50,8 @@ const Auth = ({ register, login }) => {
         const result = await userLoginAPI(userDetails)
         console.log(result);
         if (result.status == 200) {
-            localStorage.setItem("token",result.data.token)
-            localStorage.setItem("user",JSON.stringify(result.data.user))
+            localStorage.setItem("token", result.data.token)
+            localStorage.setItem("user", JSON.stringify(result.data.user))
             alert(result.data.message)
             setUserDetails({
                 username: "",
@@ -83,11 +85,28 @@ const Auth = ({ register, login }) => {
             })
         }
     }
+
+    const handleGoogleLogin = async(credentialResponse) => {
+        const details = jwtDecode(credentialResponse.credential)
+        const result = await userGoogleLoginAPI({username:details.name,email:details.email,password:import.meta.env.VITE_GOOGLE_KEY,profile:details.picture})
+        console.log(result);
+        if(result.status==200){
+            localStorage.setItem("token",result.data.token)
+            localStorage.setItem("user",JSON.stringify(result.data.user))
+            alert("Login Successful!")
+            setUserDetails({
+                username: "",
+                email: "",
+                password: ""
+            })
+            navigate('/Home')
+        }
+    }
     return (
         <div className='bg-black/10 h-screen flex justify-center items-center'>
             <div className='p-10 bg-white flex justify-center items-center flex-col shadow-2xl w-90'>
                 {register ? <h2 className='text-blue-400 font-semibold text-2xl'>Create An Account</h2> : <h2 className='text-blue-400 font-semibold text-2xl text-center'>Login to your Account</h2>}
-                {register ? <p className='text-black/60'>Create an account to use the application</p> : <p className='text-black/60 text-center'>Login to your account to use the application</p>}
+                {register ? <p className='text-black/60 text-center'>Create an account to use the application</p> : <p className='text-black/60 text-center'>Login to your account to use the application</p>}
                 <div className='w-full p-5 flex justify-center items-center flex-col gap-5'>
                     {
                         register &&
@@ -103,6 +122,20 @@ const Auth = ({ register, login }) => {
                     </div>
                     <div className='w-full'>
                         {register ? <button onClick={handleRegister} className='bg-blue-400 w-full border text-white py-1 hover:bg-white hover:text-blue-400 cursor-pointer duration-300 active:scale-99'>Sign Up</button> : <button onClick={handleLogin} className='bg-blue-400 w-full border text-white py-1 hover:bg-white hover:text-blue-400 cursor-pointer duration-300 active:scale-99'>Sign In</button>}
+                    </div>
+                    <div>
+                        <p>OR</p>
+                    </div>
+                    <div className='w-full'>
+                        <GoogleLogin
+                            onSuccess={credentialResponse => {
+                                // console.log(credentialResponse);
+                                handleGoogleLogin(credentialResponse)
+                            }}
+                            onError={() => {
+                                console.log('Login Failed');
+                            }}
+                        />
                     </div>
                     <div className='w-full'>
                         {register ? <p className='text-center'>Already have an Account? <a href='/login' className='text-blue-400 hover:text-blue-500 hover:underline cursor-pointer'>Sign In</a></p> : <p className='text-center'>New User? <a href='/register' className='text-blue-400 hover:text-blue-500 hover:underline cursor-pointer'>Sign Up</a></p>}
