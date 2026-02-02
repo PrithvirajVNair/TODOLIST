@@ -24,12 +24,19 @@ exports.createTaskController = async (req, res) => {
 // controller for reading/get existing task
 exports.getTasksController = async (req, res) => {
     const email = req.payload
+    const searchData = req.query.search
+    // console.log(searchData);
+    const query = {
+        title:{
+            $regex:searchData,$options:"i"
+        }
+    }
     try {
         const currentUser = await users.findOne({ email })
         if (!currentUser) {
             return res.status(404).json("User Not Found!")
         }
-        const allTasks = await tasks.find({ userId: currentUser._id })
+        const allTasks = await tasks.find({ userId: currentUser._id, title:query.title })
         res.status(200).json(allTasks)
     }
     catch (err) {
@@ -39,18 +46,18 @@ exports.getTasksController = async (req, res) => {
 
 // controller for updating existing task
 exports.updateTaskController = async (req, res) => {
-    const { id, title, status } = req.body
+    const { _id, title, status, userId } = req.body
     const email = req.payload
     try {
         const currentUser = await users.findOne({ email })
-        const updateTask = await tasks.findOne({ _id: id })
+        const updateTask = await tasks.findOne({ _id: _id })
         if (!currentUser) {
             return res.status(404).json("User Not Found!")
         }
         if (!updateTask) {
             return res.status(404).json("Task Not Found!")
         }
-        if (currentUser._id != updateTask.userId) {
+        if (currentUser._id.toString() != updateTask.userId.toString()) {
             return res.status(403).json("You have No Permission!!")
         }
         updateTask.title = title
@@ -76,7 +83,7 @@ exports.deleteTaskController = async (req, res) => {
         if (!deleteTask) {
             return res.status(404).json("Task Not Found!")
         }
-        if (currentUser._id != deleteTask.userId) {
+        if (currentUser._id.toString() != deleteTask.userId.toString()) {
             return res.status(403).json("You have No Permission!!")
         }
         await tasks.findByIdAndDelete({ _id: id })
