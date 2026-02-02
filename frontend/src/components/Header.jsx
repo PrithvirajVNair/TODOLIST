@@ -28,7 +28,7 @@ const Header = () => {
       </div>
       {
         toggleMenu &&
-        <div className="md:hidden fixed z-99 flex flex-col p-5 bg-white/10 backdrop-blur-3xl rounded-xl right-0 top-16 justify-center items-center text-white">
+        <div className="md:hidden fixed z-99 flex flex-col p-5 bg-white/10 backdrop-blur-3xl rounded-xl right-5 top-16 justify-center items-center text-black">
         <a href="/login">
               Sign In
             </a>
