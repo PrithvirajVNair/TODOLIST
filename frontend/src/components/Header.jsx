@@ -21,14 +21,14 @@ const Header = () => {
               Get Started
             </a>
           </div>
-          <div>
+          <div className="block md:hidden">
             {!toggleMenu?<button onClick={()=>setToggleMenu(true)}><FontAwesomeIcon icon={faBars} /></button>:<button onClick={()=>setToggleMenu(false)}><FontAwesomeIcon icon={faXmark} /></button>}
           </div>
         </div>
       </div>
       {
         toggleMenu &&
-        <div className="fixed z-99 flex flex-col p-5 bg-white/10 backdrop-blur-3xl rounded-xl right-0 top-16 justify-center items-center text-white">
+        <div className="md:hidden fixed z-99 flex flex-col p-5 bg-white/10 backdrop-blur-3xl rounded-xl right-0 top-16 justify-center items-center text-white">
         <a href="/login">
               Sign In
             </a>
