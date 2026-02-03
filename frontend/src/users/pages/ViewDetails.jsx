@@ -21,6 +21,7 @@ const ViewDetails = () => {
   const [deleteStatus, setDeleteStatus] = useState([]);
   const [themeStatus, setThemeStatus] = useState("");
   const [theme, setTheme] = useState("");
+  const [loading, setLoading] = useState(true);
 
   // dynamic status option
   const statusOption = [
@@ -40,6 +41,8 @@ const ViewDetails = () => {
 
     // API Call
     const result = await getATaskAPI(id, reqHeader);
+    // for loader (making loading state false)
+    setLoading(false);
     setTaskDetails(result.data);
   };
 
@@ -97,45 +100,55 @@ const ViewDetails = () => {
       <div
         className={`h-screen flex justify-center items-center px-5 sm:px-10 md:px-20 ${theme == "Dark" ? "bg-black text-white" : "bg-black/5"}`}
       >
-        <div
-          className={`p-10 w-200 flex flex-col gap-5 ${theme == "Dark" ? "bg-white/10" : "bg-white"}`}
-        >
-          <h2 className="text-center  text-base sm:text-xl font-semibold">
-            {taskDetails.title}
-          </h2>
+        {!loading ? (
           <div
-            className={`h-20 bg-black/5 rounded overflow-y-scroll  ${theme == "Dark" ? "bg-black/40" : "bg-black/5"}`}
+            className={`p-10 w-200 flex flex-col gap-5 ${theme == "Dark" ? "bg-white/10" : "bg-white"}`}
           >
-            <p className="text-center text-sm sm:text-base">Description :</p>
-            <p className="text-center text-sm sm:text-base">
-              {taskDetails.description}
-            </p>
-          </div>
-          <div className="flex max-sm:flex-col gap-3 justify-between items-center">
-            <p className="text-sm sm:text-base">
-              Status : {taskDetails.status}
-            </p>
-            <p className="text-sm sm:text-base">
-              Created At : {formatDate(taskDetails.createdAt)}
-            </p>
-          </div>
-          <div className="flex justify-center sm:justify-end items-center">
-            <button
-              onClick={() => setToggleUpdate(true)}
-              className="text-xs sm:text-base bg-orange-400 text-white py-1 px-2 rounded hover:bg-orange-500  cursor-pointer duration-200 active:scale-97 me-3"
+            <h2 className="text-center  text-base sm:text-xl font-semibold">
+              {taskDetails.title}
+            </h2>
+            <div
+              className={`h-20 bg-black/5 rounded overflow-y-scroll  ${theme == "Dark" ? "bg-black/40" : "bg-black/5"}`}
             >
-              <FontAwesomeIcon icon={faPencil} />
-              Edit
-            </button>
-            <button
-              onClick={() => setToggleDelete(true)}
-              className="text-xs sm:text-base bg-red-400 text-white py-1 px-2 rounded hover:bg-red-500  cursor-pointer duration-200 active:scale-97 me-3"
-            >
-              <FontAwesomeIcon icon={faTrash} />
-              Delete
-            </button>
+              <p className="text-center text-sm sm:text-base">Description :</p>
+              <p className="text-center text-sm sm:text-base">
+                {taskDetails.description}
+              </p>
+            </div>
+            <div className="flex max-sm:flex-col gap-3 justify-between items-center">
+              <p className="text-sm sm:text-base">
+                Status : {taskDetails.status}
+              </p>
+              <p className="text-sm sm:text-base">
+                Created At : {formatDate(taskDetails.createdAt)}
+              </p>
+            </div>
+            <div className="flex justify-center sm:justify-end items-center">
+              <button
+                onClick={() => setToggleUpdate(true)}
+                className="text-xs sm:text-base bg-orange-400 text-white py-1 px-2 rounded hover:bg-orange-500  cursor-pointer duration-200 active:scale-97 me-3"
+              >
+                <FontAwesomeIcon icon={faPencil} />
+                Edit
+              </button>
+              <button
+                onClick={() => setToggleDelete(true)}
+                className="text-xs sm:text-base bg-red-400 text-white py-1 px-2 rounded hover:bg-red-500  cursor-pointer duration-200 active:scale-97 me-3"
+              >
+                <FontAwesomeIcon icon={faTrash} />
+                Delete
+              </button>
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className="flex justify-center items-center">
+            <img
+              width={"150px"}
+              src="https://img.pikbest.com/png-images/20190918/cartoon-snail-loading-loading-gif-animation_2734139.png!bw700"
+              alt=""
+            />
+          </div>
+        )}
       </div>
 
       {/* modal for form handling of task updation */}

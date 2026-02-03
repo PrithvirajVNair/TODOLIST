@@ -44,19 +44,20 @@ const UserHome = () => {
     currenntPageFirstIndex,
     currenntPageLastIndex,
   );
+  const [loading, setLoading] = useState(true);
 
   // pagination Navigation next
   const navigateNext = () => {
     if (currenntPage != totalPages) {
       setCurrentPage(currenntPage + 1);
-    } 
+    }
   };
 
   // pagination Navigation back
   const navigateBack = () => {
     if (currenntPage != 1) {
       setCurrentPage(currenntPage - 1);
-    } 
+    }
   };
 
   // function for changing date format
@@ -75,6 +76,8 @@ const UserHome = () => {
     //API Call
     const result = await getTaskAPI(searchData, reqHeader);
     if (result.status == 200) {
+      // for loader (making loading state false)
+      setLoading(false);
       if (filter == "All") {
         setAllList(result.data);
       } else {
@@ -179,86 +182,102 @@ const UserHome = () => {
         </div>
 
         {/* Table for listing todo list */}
-        <div className="pb-5">
-          {allList?.length > 0 ? (
-            <div className="rounded-xl overflow-hidden">
+        {!loading ? (
+          <div className="pb-5">
+            {allList?.length > 0 ? (
               <div className="rounded-xl overflow-hidden">
-                <table className="w-full table-fixed">
-                  <thead
-                    className={`bg-black/5 hover:bg-black/6 ${theme == "Dark" && "bg-white/15 hover:bg-white/20"}`}
-                  >
-                    <tr>
-                      <th className="p-2 md:p-5 text-xs sm:text-base sm:block hidden">
-                        #
-                      </th>
-                      <th className="p-2 md:p-5 text-xs sm:text-base">Task</th>
-                      <th className="p-2 md:p-5 text-xs sm:text-base">Status</th>
-                      <th className="p-2 md:p-5 text-xs sm:text-base sm:block hidden">
-                        Created At
-                      </th>
-                      <th className="p-2 md:p-5 text-xs sm:text-base">Details</th>
-                    </tr>
-                  </thead>
-                  <tbody
-                    className={`text-center bg-black/3 ${theme == "Dark" && "bg-white/10"}`}
-                  >
-                    {visibleLists.map((list, index) => (
-                      <tr
-                        key={list._id}
-                        className={`border-b border-black/5 hover:bg-black/4 duration-300 ${theme == "Dark" && "border-white/5"}`}
-                      >
-                        <td className="p-2 md:p-4 text-xs sm:text-base sm:block hidden">
-                          {index + 1}
-                        </td>
-                        <td className="p-2 md:p-4 text-xs sm:text-base text-ellipsis">
-                          {list.title}
-                        </td>
-                        <td className="p-2 md:p-4">
-                          <p
-                            className={`inline-block px-0.5 sm:p-2 md:p-1 rounded-xl ${list.status == "In Progress" ? "bg-blue-400/20 text-blue-400" : list.status == "On Hold" ? "bg-gray-400/20" : list.status == "Completed" ? "bg-green-400/20 text-green-400" : "bg-red-400/20 text-red-400"} text-xs sm:text-base overflow-hidden text-ellipsis whitespace-nowrap`}
-                          >
-                            {list.status}
-                          </p>
-                        </td>
-                        <td className="text-xs sm:text-base p-2 md:p-4 sm:block hidden">
-                          {formatDate(list.createdAt)}
-                        </td>
-                        <td className="p-2 md:p-4">
-                          <a
-                            href={`/task/${list._id}/details`}
-                            className="text-xs sm:text-base bg-blue-400 text-white py-1 px-2 rounded hover:bg-blue-500 cursor-pointer duration-200 active:scale-97"
-                          >
-                            <div className="sm:inline hidden">
-                              <FontAwesomeIcon icon={faInfo} className="" />
-                            </div>
-                            Details
-                          </a>
-                        </td>
+                <div className="rounded-xl overflow-hidden">
+                  <table className="w-full table-fixed">
+                    <thead
+                      className={`bg-black/5 hover:bg-black/6 ${theme == "Dark" && "bg-white/15 hover:bg-white/20"}`}
+                    >
+                      <tr>
+                        <th className="p-2 md:p-5 text-xs sm:text-base sm:block hidden">
+                          #
+                        </th>
+                        <th className="p-2 md:p-5 text-xs sm:text-base">
+                          Task
+                        </th>
+                        <th className="p-2 md:p-5 text-xs sm:text-base">
+                          Status
+                        </th>
+                        <th className="p-2 md:p-5 text-xs sm:text-base sm:block hidden">
+                          Created At
+                        </th>
+                        <th className="p-2 md:p-5 text-xs sm:text-base">
+                          Details
+                        </th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody
+                      className={`text-center bg-black/3 ${theme == "Dark" && "bg-white/10"}`}
+                    >
+                      {visibleLists.map((list, index) => (
+                        <tr
+                          key={list._id}
+                          className={`border-b border-black/5 hover:bg-black/4 duration-300 ${theme == "Dark" && "border-white/5"}`}
+                        >
+                          <td className="p-2 md:p-4 text-xs sm:text-base sm:block hidden">
+                            {index + 1}
+                          </td>
+                          <td className="p-2 md:p-4 text-xs sm:text-base text-ellipsis">
+                            {list.title}
+                          </td>
+                          <td className="p-2 md:p-4">
+                            <p
+                              className={`inline-block px-0.5 sm:p-2 md:p-1 rounded-xl ${list.status == "In Progress" ? "bg-blue-400/20 text-blue-400" : list.status == "On Hold" ? "bg-gray-400/20" : list.status == "Completed" ? "bg-green-400/20 text-green-400" : "bg-red-400/20 text-red-400"} text-xs sm:text-base overflow-hidden text-ellipsis whitespace-nowrap`}
+                            >
+                              {list.status}
+                            </p>
+                          </td>
+                          <td className="text-xs sm:text-base p-2 md:p-4 sm:block hidden">
+                            {formatDate(list.createdAt)}
+                          </td>
+                          <td className="p-2 md:p-4">
+                            <a
+                              href={`/task/${list._id}/details`}
+                              className="text-xs sm:text-base bg-blue-400 text-white py-1 px-2 rounded hover:bg-blue-500 cursor-pointer duration-200 active:scale-97"
+                            >
+                              <div className="sm:inline hidden">
+                                <FontAwesomeIcon icon={faInfo} className="" />
+                              </div>
+                              Details
+                            </a>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                <div className="my-10 text-center">
+                  <FontAwesomeIcon
+                    className="cursor-pointer"
+                    onClick={navigateBack}
+                    icon={faChevronLeft}
+                  />{" "}
+                  {currenntPage} / {totalPages}{" "}
+                  <FontAwesomeIcon
+                    className="cursor-pointer"
+                    onClick={navigateNext}
+                    icon={faChevronRight}
+                  />
+                </div>
               </div>
-              <div className="my-10 text-center">
-                <FontAwesomeIcon
-                  className="cursor-pointer"
-                  onClick={navigateBack}
-                  icon={faChevronLeft}
-                />{" "}
-                {currenntPage} / {totalPages}{" "}
-                <FontAwesomeIcon
-                  className="cursor-pointer"
-                  onClick={navigateNext}
-                  icon={faChevronRight}
-                />
-              </div>
-            </div>
-          ) : (
-            <p className="text-center text-xl font-semibold text-red-400">
-              List is Empty
-            </p>
-          )}
-        </div>
+            ) : (
+              <p className="text-center text-xl font-semibold text-red-400">
+                List is Empty
+              </p>
+            )}
+          </div>
+        ) : (
+          <div className="flex justify-center items-center">
+            <img
+              width={"150px"}
+              src="https://img.pikbest.com/png-images/20190918/cartoon-snail-loading-loading-gif-animation_2734139.png!bw700"
+              alt=""
+            />
+          </div>
+        )}
       </div>
 
       {/* modal for form handling of new task */}
@@ -282,13 +301,13 @@ const UserHome = () => {
             <div className="flex justify-center items-center gap-3 pt-5">
               <button
                 onClick={() => setToggleAdd(false)}
-                className="bg-red-400 border text-white py-1 px-2 rounded hover:bg-white hover:text-red-400 cursor-pointer duration-200 active:scale-97 w-20"
+                className="bg-red-400 text-white py-1 px-2 rounded hover:bg-white hover:text-red-400 cursor-pointer duration-200 active:scale-97 w-20"
               >
                 Cancel
               </button>
               <button
                 onClick={handleCreateTask}
-                className="bg-blue-400 border text-white py-1 px-2 rounded hover:bg-white hover:text-blue-400 cursor-pointer duration-200 active:scale-97 w-20"
+                className="bg-blue-400 text-white py-1 px-2 rounded hover:bg-white hover:text-blue-400 cursor-pointer duration-200 active:scale-97 w-20"
               >
                 Create
               </button>
