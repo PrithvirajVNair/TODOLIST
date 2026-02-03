@@ -2,6 +2,7 @@ import { Route, Routes } from "react-router-dom"
 import Auth from "./pages/Auth"
 import Home from "./pages/Home"
 import UserHome from "./users/pages/UserHome"
+import ViewDetails from "./users/pages/ViewDetails"
 
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
 
 
           <Route path="/home" element={<UserHome/>} />
+          <Route path="/task/:id/details" element={<ViewDetails/>} />
       </Routes>
     </>
   )

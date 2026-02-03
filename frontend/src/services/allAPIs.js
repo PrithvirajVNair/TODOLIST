@@ -30,6 +30,11 @@ export const getTaskAPI = async(searchData,reqHeader) => {
     return await commonAPI("GET",`${serverURL}/get-task?search=${searchData}`,"",reqHeader)
 }
 
+// get a single task API
+export const getATaskAPI = async(id,reqHeader) => {
+    return await commonAPI("GET",`${serverURL}/task/${id}/details`,"",reqHeader)
+}
+
 // update task API
 export const updateTaskAPI = async(reqBody,reqHeader) => {
     return await commonAPI("PUT",`${serverURL}/update-task`,reqBody,reqHeader)
