@@ -114,6 +114,9 @@ const Auth = ({ register, login }) => {
     if (localStorage.getItem("theme")) {
       setTheme(localStorage.getItem("theme"));
     }
+    if(localStorage.getItem("token")){
+        navigate('/home')
+    }
   }, []);
 
   return (
