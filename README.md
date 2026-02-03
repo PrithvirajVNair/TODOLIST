@@ -189,3 +189,20 @@ curl -X POST http://localhost:4000/create-task \
 
 ---
 
+## Assumptions & Design Decisions
+
+### Assumptions
+
+- Default task status is “Not Completed”
+- Added Google Login
+- Pagination size is fixed (example: 10 tasks per page)
+- Task title is mandatory
+
+
+### Design Decisions
+
+- Used JWT for stateless authentication
+- Protected routes with middleware
+- Stored JWT on frontend and sent via Authorization header
+- Separated controllers, routes, middleware for clean architecture
+- Used Swagger for API documentation
