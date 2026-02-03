@@ -2,6 +2,9 @@ require("dotenv").config()
 const express = require('express')
 const cors = require("cors")
 
+const swaggerUi = require("swagger-ui-express");
+const swaggerSpec = require("./swagger");
+
 // import database connection
 require('./config/connection')
 
@@ -14,6 +17,7 @@ const server = express()
 server.use(cors())
 server.use(express.json())
 server.use(router)
+server.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 PORT = 4000
 
