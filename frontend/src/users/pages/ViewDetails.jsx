@@ -212,13 +212,13 @@ const ViewDetails = () => {
             <div className="flex justify-center items-center gap-3 pt-5">
               <button
                 onClick={() => setToggleUpdate(false)}
-                className="bg-red-400 text-white py-1 px-2 rounded hover:bg-white hover:text-red-400 cursor-pointer duration-200 active:scale-97 w-20"
+                className="bg-red-400 text-white py-1 px-2 rounded hover:bg-red-500 hover:text-white cursor-pointer duration-200 active:scale-97 w-20"
               >
                 Cancel
               </button>
               <button
                 onClick={handleUpdateTask}
-                className="bg-blue-400 text-white py-1 px-2 rounded hover:bg-white hover:text-blue-400 cursor-pointer duration-200 active:scale-97 w-20"
+                className="bg-blue-400 text-white py-1 px-2 rounded hover:bg-blue-500 hover:text-white cursor-pointer duration-200 active:scale-97 w-20"
               >
                 Update
               </button>
