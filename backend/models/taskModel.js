@@ -25,6 +25,11 @@ const taskSchema = new mongoose.Schema({
         type:Date,
         required:true,
         default:Date.now
+    },
+    updatedAt:{
+        type:Date,
+        required:true,
+        default:Date.now
     }
 })
 

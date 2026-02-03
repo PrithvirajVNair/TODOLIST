@@ -79,6 +79,7 @@ exports.updateTaskController = async (req, res) => {
         updateTask.title = title
         updateTask.status = status
         updateTask.description = description
+        updateTask.updatedAt= Date.now()
         await updateTask.save()
         res.status(200).json("Task Updated!!")
     }

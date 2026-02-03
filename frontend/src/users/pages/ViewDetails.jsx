@@ -7,8 +7,15 @@ import {
 } from "../../services/allAPIs";
 import Header from "../components/Header";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faCircle as faCircleRegular } from "@fortawesome/free-regular-svg-icons";
+import { faCircleCheck as faCircleCheckRegular } from "@fortawesome/free-regular-svg-icons";
+import {
+  faCalendar,
+  faPencil,
+  faTrash,
+} from "@fortawesome/free-solid-svg-icons";
 import { toast } from "react-toastify";
+import { format } from "timeago.js";
 
 const ViewDetails = () => {
   // accessing id from url
@@ -24,13 +31,7 @@ const ViewDetails = () => {
   const [loading, setLoading] = useState(true);
 
   // dynamic status option
-  const statusOption = [
-    "All",
-    "In Progress",
-    "On Hold",
-    "Completed",
-    "Not Completed",
-  ];
+  const statusOption = ["In Progress", "On Hold", "Completed", "Not Completed"];
 
   // function for getting specific to do task
   const getATask = async () => {
@@ -105,46 +106,103 @@ const ViewDetails = () => {
     <>
       <Header themeStatus={getValueFromChild} />
       <div
-        className={`h-screen flex justify-center items-center px-5 sm:px-10 md:px-20 ${theme == "Dark" ? "bg-black text-white" : "bg-black/5"}`}
+        className={`min-h-screen flex flex-col justify-center items-center px-5 sm:px-10 md:px-20 ${theme == "Dark" ? "bg-black text-white" : "bg-black/5"}`}
       >
         {!loading ? (
-          <div
-            className={`p-10 w-200 flex flex-col gap-5 ${theme == "Dark" ? "bg-white/10" : "bg-white"}`}
-          >
-            <h2 className="text-center  text-base sm:text-xl font-semibold">
-              {taskDetails.title}
-            </h2>
+          <div className="md:w-200 flex flex-col justify-center items-center py-20">
+            <div className="bg-blue-400 w-full rounded-t-xl px-5 md:px-10 py-5">
+              <h4 className="text-3xl font-bold text-white">
+                {taskDetails.title}
+              </h4>
+              <div className="flex max-md:flex-col">
+                <p className="text-white me-3">
+                  Created: {formatDate(taskDetails.createdAt)}
+                </p>
+                <p className="text-white">
+                  Last updated: {format(taskDetails.updatedAt)}
+                </p>
+              </div>
+            </div>
             <div
-              className={`h-20 bg-black/5 rounded overflow-y-scroll  ${theme == "Dark" ? "bg-black/40" : "bg-black/5"}`}
+              className={`p-5 md:p-10 w-full flex flex-col gap-5 rounded-b-xl ${theme == "Dark" ? "bg-white/10" : "bg-white"}`}
             >
-              <p className="text-center text-sm sm:text-base">Description :</p>
-              <p className="text-center text-sm sm:text-base">
-                {taskDetails.description}
-              </p>
-            </div>
-            <div className="flex max-sm:flex-col gap-3 justify-between items-center">
-              <p className="text-sm sm:text-base">
-                Status : {taskDetails.status}
-              </p>
-              <p className="text-sm sm:text-base">
-                Created At : {formatDate(taskDetails.createdAt)}
-              </p>
-            </div>
-            <div className="flex justify-center sm:justify-end items-center">
-              <button
-                onClick={() => setToggleUpdate(true)}
-                className="text-xs sm:text-base bg-orange-400 text-white py-1 px-2 rounded hover:bg-orange-500  cursor-pointer duration-200 active:scale-97 me-3"
+              <div className="grid md:grid-cols-3">
+                <div
+                  className={`p-5 m-1 md:m-3 border rounded-xl bg-black/2 ${theme == "Dark" ? "border-white/10" : "border-black/10"}`}
+                >
+                  <p>Status</p>
+                  <p
+                    className={` border rounded-xl px-2 py-1 mt-3 ${taskDetails.status == "In Progress" ? "text-blue-400" : taskDetails.status == "On Hold" ? "text-yellow-400" : taskDetails.status == "Completed" ? "text-green-400" : "text-red-400"}`}
+                  >
+                    {taskDetails.status == "Completed" ? (
+                      <FontAwesomeIcon
+                        icon={faCircleCheckRegular}
+                        className="me-2"
+                      />
+                    ) : (
+                      <FontAwesomeIcon
+                        icon={faCircleRegular}
+                        className="me-2"
+                      />
+                    )}
+                    {taskDetails.status}
+                  </p>
+                </div>
+                <div
+                  className={`p-5 m-1 md:m-3 border rounded-xl bg-black/2  ${theme == "Dark" ? "border-white/10" : "border-black/10"} `}
+                >
+                  <p>Created Date</p>
+                  <p className="rounded-xl mt-3">
+                    <FontAwesomeIcon
+                      icon={faCalendar}
+                      className="me-2 text-blue-400"
+                    />
+                    {formatDate(taskDetails.createdAt)}
+                  </p>
+                </div>
+                <div
+                  className={`p-5 m-1 md:m-3 border rounded-xl bg-black/2 overflow-x-hidden  ${theme == "Dark" ? "border-white/10" : "border-black/10"}`}
+                >
+                  <p>Task ID</p>
+                  <p className=" rounded-xl mt-3 truncate">
+                    #{taskDetails._id}
+                  </p>
+                </div>
+              </div>
+              <p className="text-sm sm:text-base">Description :</p>
+              <div
+                className={`p-5 bg-black/2 border rounded-xl ${theme == "Dark" ? "border-white/10" : "border-black/10"}`}
               >
-                <FontAwesomeIcon icon={faPencil} />
-                Edit
-              </button>
-              <button
-                onClick={() => setToggleDelete(true)}
-                className="text-xs sm:text-base bg-red-400 text-white py-1 px-2 rounded hover:bg-red-500  cursor-pointer duration-200 active:scale-97 me-3"
-              >
-                <FontAwesomeIcon icon={faTrash} />
-                Delete
-              </button>
+                <div
+                  className={`h-20 rounded-xl overflow-y-scroll  ${theme == "Dark" ? "bg-black/40" : "bg-white"}`}
+                >
+                  <p className="text-sm p-1 sm:text-base">
+                    {taskDetails.description}
+                  </p>
+                </div>
+              </div>
+              <div className="flex justify-center sm:justify-end items-center">
+                <a
+                  href="/home"
+                  className="text-xs sm:text-base bg-white text-black border border-black/10 py-1 px-2 rounded  cursor-pointer duration-200 active:scale-97 me-3"
+                >
+                  Back
+                </a>
+                <button
+                  onClick={() => setToggleUpdate(true)}
+                  className="text-xs sm:text-base bg-orange-400 text-white py-1 px-2 rounded hover:bg-orange-500  cursor-pointer duration-200 active:scale-97 me-3"
+                >
+                  <FontAwesomeIcon icon={faPencil} />
+                  Edit
+                </button>
+                <button
+                  onClick={() => setToggleDelete(true)}
+                  className="text-xs sm:text-base bg-red-400 text-white py-1 px-2 rounded hover:bg-red-500  cursor-pointer duration-200 active:scale-97 me-3"
+                >
+                  <FontAwesomeIcon icon={faTrash} />
+                  Delete
+                </button>
+              </div>
             </div>
           </div>
         ) : (
