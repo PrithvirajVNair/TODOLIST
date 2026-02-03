@@ -44,9 +44,26 @@ exports.getTasksController = async (req, res) => {
     }
 }
 
+// controller for reading/get existing task
+exports.getATasksController = async (req, res) => {
+    const email = req.payload
+    const {id} = req.params
+    try {
+        const currentUser = await users.findOne({ email })
+        if (!currentUser) {
+            return res.status(404).json("User Not Found!")
+        }
+        const Task = await tasks.findOne({ userId: currentUser._id, _id:id })
+        res.status(200).json(Task)
+    }
+    catch (err) {
+        res.status(500).json(err)
+    }
+}
+
 // controller for updating existing task
 exports.updateTaskController = async (req, res) => {
-    const { _id, title, status, userId } = req.body
+    const { _id, title, status, userId, description } = req.body
     const email = req.payload
     try {
         const currentUser = await users.findOne({ email })
@@ -62,6 +79,7 @@ exports.updateTaskController = async (req, res) => {
         }
         updateTask.title = title
         updateTask.status = status
+        updateTask.description = description
         await updateTask.save()
         res.status(200).json("Task Updated!!")
     }

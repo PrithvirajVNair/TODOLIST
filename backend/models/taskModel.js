@@ -16,6 +16,11 @@ const taskSchema = new mongoose.Schema({
         required:true,
         default:"Not Completed"
     },
+    description:{
+        type:String,
+        required:true,
+        default:"TASK"
+    },
     createdAt:{
         type:Date,
         required:true,
