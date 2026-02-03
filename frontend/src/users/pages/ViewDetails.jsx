@@ -109,12 +109,12 @@ const ViewDetails = () => {
         className={`min-h-screen flex flex-col justify-center items-center px-5 sm:px-10 md:px-20 ${theme == "Dark" ? "bg-black text-white" : "bg-black/5"}`}
       >
         {!loading ? (
-          <div className="md:w-200 flex flex-col justify-center items-center py-20">
+          <div className="md:w-200 w-full flex flex-col justify-center items-center py-20">
             <div className="bg-blue-400 w-full rounded-t-xl px-5 md:px-10 py-5">
-              <h4 className="text-3xl font-bold text-white">
+              <h4 className="text-2xl sm:text-3xl font-bold text-white">
                 {taskDetails.title}
               </h4>
-              <div className="flex max-md:flex-col">
+              <div className="flex max-md:flex-col text-sm sm:text-base">
                 <p className="text-white me-3">
                   Created: {formatDate(taskDetails.createdAt)}
                 </p>
@@ -126,7 +126,7 @@ const ViewDetails = () => {
             <div
               className={`p-5 md:p-10 w-full flex flex-col gap-5 rounded-b-xl ${theme == "Dark" ? "bg-white/10" : "bg-white"}`}
             >
-              <div className="grid md:grid-cols-3">
+              <div className="grid md:grid-cols-3 text-xs sm:text-base">
                 <div
                   className={`p-5 m-1 md:m-3 border rounded-xl bg-black/2 ${theme == "Dark" ? "border-white/10" : "border-black/10"}`}
                 >
@@ -176,7 +176,7 @@ const ViewDetails = () => {
                 <div
                   className={`h-20 rounded-xl overflow-y-scroll  ${theme == "Dark" ? "bg-black/40" : "bg-white"}`}
                 >
-                  <p className="text-sm p-1 sm:text-base">
+                  <p className="text-xs p-1 sm:text-base">
                     {taskDetails.description}
                   </p>
                 </div>
