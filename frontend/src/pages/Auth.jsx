@@ -9,6 +9,8 @@ import { useNavigate } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
 import { toast } from "react-toastify";
+import { faArrowLeft, faCircleCheck } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Auth = ({ register, login }) => {
   // for navigating
@@ -139,10 +141,28 @@ const Auth = ({ register, login }) => {
 
   return (
     <div
-      className={`h-screen flex justify-center items-center ${theme == "Dark" ? "bg-black text-white" : "bg-black/10"}`}
+      className={`h-screen flex justify-center md:justify-evenly items-center ${theme == "Dark" ? "bg-black text-white" : "bg-black/10"}`}
     >
+      <div className="bg-blue-400 p-10 rounded-xl hidden md:flex flex-col md:m-5 gap-5">
+          <h2 className="text-white text-3xl font-bold">Welcome to ToDL</h2>
+          <p className="text-white text-lg">Manage your tasks efficiently and boost your <br /> productivity.</p>
+          <div className="flex flex-col gap-5">
+              <div className="text-white">
+                <h4 className="text-lg"><FontAwesomeIcon icon={faCircleCheck} className="me-2" />Simple & Intuitive</h4>
+                <p className="ms-7">Easy-to-use interface designed for everyone</p>
+              </div>
+              <div className="text-white">
+                <h4 className="text-lg"><FontAwesomeIcon icon={faCircleCheck} className="me-2" />Stay Organized</h4>
+                <p className="ms-7">Keep all your tasks in one place</p>
+              </div>
+              <div className="text-white">
+                <h4 className="text-lg"><FontAwesomeIcon icon={faCircleCheck} className="me-2" />Track Progress</h4>
+                <p className="ms-7">Monitor your tasks with real-time updates</p>
+              </div>
+          </div>
+      </div>
       <div
-        className={`p-10 rounded-lg flex justify-center items-center flex-col shadow-2xl w-90 ${theme == "Dark" ? "bg-white/10" : "bg-white"}`}
+        className={`p-10 m-5 rounded-lg flex justify-center items-center flex-col shadow-2xl w-90 ${theme == "Dark" ? "bg-white/10" : "bg-white"}`}
       >
         {register ? (
           <h2 className="text-blue-400 font-semibold text-2xl">
@@ -167,7 +187,7 @@ const Auth = ({ register, login }) => {
             Login to your account to use the application
           </p>
         )}
-        <div className="w-full p-5 flex justify-center items-center flex-col gap-5">
+        <div className="w-full p-5 flex justify-center items-center flex-col gap-3">
           {/* Only Visible at Registration */}
           {register && (
             <div className="w-full">
@@ -263,6 +283,9 @@ const Auth = ({ register, login }) => {
                 </a>
               </p>
             )}
+          </div>
+          <div>
+            <a href="/"><FontAwesomeIcon icon={faArrowLeft} className="me-2" />Back to home</a>
           </div>
         </div>
       </div>
