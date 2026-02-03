@@ -6,7 +6,6 @@ import {
   updateTaskAPI,
 } from "../../services/allAPIs";
 import Header from "../components/Header";
-import Footer from "../components/Footer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { toast } from "react-toastify";

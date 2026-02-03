@@ -17,7 +17,6 @@ import {
   getTaskAPI,
   updateTaskAPI,
 } from "../../services/allAPIs";
-import Footer from "../components/Footer";
 import { toast } from "react-toastify";
 
 const UserHome = () => {
