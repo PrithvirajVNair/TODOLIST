@@ -194,7 +194,7 @@ curl -X POST http://localhost:4000/create-task \
 ### Assumptions
 
 - Default task status is “Not Completed”
-- Added Google Login
+- Google-authenticated users are handled like normal users after login
 - Pagination size is fixed (example: 10 tasks per page)
 - Task title is mandatory
 
