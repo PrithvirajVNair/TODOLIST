@@ -18,6 +18,8 @@ function App() {
         <Route path="/home" element={<UserHome />} />
         <Route path="/task/:id/details" element={<ViewDetails />} />
       </Routes>
+
+      {/* Toast Container for accessing toast accross all components */}
       <ToastContainer
         position="top-right"
         autoClose={2000}

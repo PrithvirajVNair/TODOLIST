@@ -12,6 +12,7 @@ const Header = ({ themeStatus }) => {
   const [toggleTheme, setToggleTheme] = useState(false);
   const [theme, setTheme] = useState("Light");
 
+  // function to handle theme change (Dark/Light)
   const handleTheme = (theme) => {
     localStorage.setItem("theme", theme);
     themeStatus(theme);
@@ -40,6 +41,7 @@ const Header = ({ themeStatus }) => {
             ToDL
           </a>
           <div className="flex justify-center items-center">
+            {/* Button to change theme */}
             <div>
               {toggleTheme ? (
                 <button
@@ -63,10 +65,11 @@ const Header = ({ themeStatus }) => {
                 </button>
               )}
             </div>
+            {/* signin/ getstarted button for big screen */}
             <div className="md:flex hidden">
               <a
                 href="/login"
-                className="bg-white border-black/20 me-2 py-1 px-2 rounded-lg hover:bg-blue-500 cursor-pointer duration-200 active:scale-97"
+                className="bg-white border border-white me-2 py-1 px-2 rounded-lg hover:border hover:border-black/20 cursor-pointer duration-200 active:scale-97"
               >
                 Sign In
               </a>
@@ -77,22 +80,32 @@ const Header = ({ themeStatus }) => {
                 Get Started
               </a>
             </div>
+            {/* toggle menu for smaller screen */}
             <div className="block md:hidden">
-                {!toggleMenu ? (
-                  <button onClick={() => setToggleMenu(true)}>
-                    <FontAwesomeIcon icon={faBars} className={`${theme=="Dark" ? "text-white": "text-black"}`} />
-                  </button>
-                ) : (
-                  <button onClick={() => setToggleMenu(false)}>
-                    <FontAwesomeIcon icon={faXmark} className={`${theme=="Dark" ? "text-white": "text-black"}`} />
-                  </button>
-                )}
+              {!toggleMenu ? (
+                <button onClick={() => setToggleMenu(true)}>
+                  <FontAwesomeIcon
+                    icon={faBars}
+                    className={`${theme == "Dark" ? "text-white" : "text-black"}`}
+                  />
+                </button>
+              ) : (
+                <button onClick={() => setToggleMenu(false)}>
+                  <FontAwesomeIcon
+                    icon={faXmark}
+                    className={`${theme == "Dark" ? "text-white" : "text-black"}`}
+                  />
+                </button>
+              )}
             </div>
           </div>
         </div>
       </div>
+      {/* dropdown for toggle menu for smaller screens */}
       {toggleMenu && (
-        <div className={`md:hidden fixed z-99 flex flex-col p-5 bg-white/10 backdrop-blur-3xl rounded-xl right-5 top-16 justify-center items-center ${theme=="Dark"? "text-white" : "text-black"}`}>
+        <div
+          className={`md:hidden fixed z-99 flex flex-col p-5 bg-white/10 backdrop-blur-3xl rounded-xl right-5 top-16 justify-center items-center ${theme == "Dark" ? "text-white" : "text-black"}`}
+        >
           <a href="/login">Sign In</a>
           <a href="/register">Get Started</a>
         </div>

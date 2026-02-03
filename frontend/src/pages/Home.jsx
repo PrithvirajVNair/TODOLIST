@@ -42,7 +42,7 @@ const Home = () => {
               </a>
               <a
                 href="#about"
-                className="bg-white border-black/20 me-2 py-1 px-2 rounded-lg hover:bg-white/90 cursor-pointer duration-200 active:scale-97 font-semibold text-black"
+                className="bg-white border border-white hover:border-black/20 me-2 py-1 px-2 rounded-lg cursor-pointer duration-200 active:scale-97 font-semibold text-black"
               >
                 Learn More
               </a>

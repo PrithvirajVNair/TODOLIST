@@ -34,8 +34,10 @@ exports.userLoginController = async (req, res) => {
         if (!existingUser) {
             return res.status(404).json("User Not Found, Please Register!")
         }
+        // comparing password from frontend (entered password) with hashed password in Database
         const match = await bcrypt.compare(password, existingUser.password)
         if (match) {
+            // creation of token for authorization!
             const token = await jwt.sign({ userMail: existingUser.email }, process.env.JWT_KEY)
             res.status(200).json(
                 {
@@ -58,12 +60,15 @@ exports.userLoginController = async (req, res) => {
     }
 }
 
+// user registration/login controller via google
 exports.googleLoginController = async (req, res) => {
     const { username, email, profile, password } = req.body
+    // hashing of password using bcrypt
     hashedPassword = await bcrypt.hash(password, 10)
     try {
         const existingUser = await users.findOne({ email })
         if (existingUser) {
+            // creation of token for authorization!
             const token = jwt.sign({ userMail: existingUser.email }, process.env.JWT_KEY)
             res.status(200).json({
                 user: {

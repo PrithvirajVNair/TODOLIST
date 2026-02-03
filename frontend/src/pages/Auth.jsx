@@ -11,6 +11,7 @@ import { jwtDecode } from "jwt-decode";
 import { toast } from "react-toastify";
 
 const Auth = ({ register, login }) => {
+  // for navigating
   const navigate = useNavigate();
   // state to store user login/register details
   const [userDetails, setUserDetails] = useState({
@@ -21,9 +22,9 @@ const Auth = ({ register, login }) => {
   const [theme, setTheme] = useState("Light");
   // console.log(userDetails);
 
+  //   function for User Registration
   const handleRegister = async () => {
     const result = await userRegisterAPI(userDetails);
-    console.log(result);
     if (result.status == 200) {
       toast(result.data);
       setUserDetails({
@@ -49,9 +50,9 @@ const Auth = ({ register, login }) => {
     }
   };
 
+  // function for user login
   const handleLogin = async () => {
     const result = await userLoginAPI(userDetails);
-    console.log(result);
     if (result.status == 200) {
       localStorage.setItem("token", result.data.token);
       localStorage.setItem("user", JSON.stringify(result.data.user));
@@ -86,6 +87,7 @@ const Auth = ({ register, login }) => {
     }
   };
 
+  // function for google login
   const handleGoogleLogin = async (credentialResponse) => {
     const details = jwtDecode(credentialResponse.credential);
     const result = await userGoogleLoginAPI({
@@ -94,7 +96,6 @@ const Auth = ({ register, login }) => {
       password: import.meta.env.VITE_GOOGLE_KEY,
       profile: details.picture,
     });
-    console.log(result);
     if (result.status == 200) {
       localStorage.setItem("token", result.data.token);
       localStorage.setItem("user", JSON.stringify(result.data.user));
@@ -109,14 +110,19 @@ const Auth = ({ register, login }) => {
   };
 
   useEffect(() => {
+    // for theme (Dark/Light)
     if (localStorage.getItem("theme")) {
       setTheme(localStorage.getItem("theme"));
     }
   }, []);
 
   return (
-    <div className={`h-screen flex justify-center items-center ${theme=="Dark"?"bg-black text-white":"bg-black/10"}`}>
-      <div className={`p-10 rounded-lg flex justify-center items-center flex-col shadow-2xl w-90 ${theme=="Dark"?"bg-white/10":"bg-white"}`}>
+    <div
+      className={`h-screen flex justify-center items-center ${theme == "Dark" ? "bg-black text-white" : "bg-black/10"}`}
+    >
+      <div
+        className={`p-10 rounded-lg flex justify-center items-center flex-col shadow-2xl w-90 ${theme == "Dark" ? "bg-white/10" : "bg-white"}`}
+      >
         {register ? (
           <h2 className="text-blue-400 font-semibold text-2xl">
             Create An Account
@@ -126,16 +132,22 @@ const Auth = ({ register, login }) => {
             Login to your Account
           </h2>
         )}
+
         {register ? (
-          <p className={`text-center ${theme=="Dark"?"text-white/60":"text-black/60"}`}>
+          <p
+            className={`text-center ${theme == "Dark" ? "text-white/60" : "text-black/60"}`}
+          >
             Create an account to use the application
           </p>
         ) : (
-          <p className={`text-center ${theme=="Dark"?"text-white/60":"text-black/60"}`}>
+          <p
+            className={`text-center ${theme == "Dark" ? "text-white/60" : "text-black/60"}`}
+          >
             Login to your account to use the application
           </p>
         )}
         <div className="w-full p-5 flex justify-center items-center flex-col gap-5">
+          {/* Only Visible at Registration */}
           {register && (
             <div className="w-full">
               <input
@@ -143,34 +155,37 @@ const Auth = ({ register, login }) => {
                 onChange={(e) =>
                   setUserDetails({ ...userDetails, username: e.target.value })
                 }
-                className={`w-full px-2 ${theme=="Dark"?"placeholder:text-white/60 bg-white/5":"placeholder:text-black/60 bg-black/5"}`}
+                className={`w-full px-2 ${theme == "Dark" ? "placeholder:text-white/60 bg-white/5" : "placeholder:text-black/60 bg-black/5"}`}
                 placeholder="Enter Your Username"
                 type="text"
               />
             </div>
           )}
+
           <div className="w-full">
             <input
               value={userDetails.email}
               onChange={(e) =>
                 setUserDetails({ ...userDetails, email: e.target.value })
               }
-              className={`w-full px-2 ${theme=="Dark"?"placeholder:text-white/60 bg-white/5":"placeholder:text-black/60 bg-black/5"}`}
+              className={`w-full px-2 ${theme == "Dark" ? "placeholder:text-white/60 bg-white/5" : "placeholder:text-black/60 bg-black/5"}`}
               placeholder="Enter Your Email"
               type="text"
             />
           </div>
+
           <div className="w-full">
             <input
               value={userDetails.password}
               onChange={(e) =>
                 setUserDetails({ ...userDetails, password: e.target.value })
               }
-              className={`w-full px-2 ${theme=="Dark"?"placeholder:text-white/60 bg-white/5":"placeholder:text-black/60 bg-black/5"}`}
+              className={`w-full px-2 ${theme == "Dark" ? "placeholder:text-white/60 bg-white/5" : "placeholder:text-black/60 bg-black/5"}`}
               placeholder="Enter Your Password"
               type="password"
             />
           </div>
+
           <div className="w-full">
             {register ? (
               <button
@@ -191,6 +206,8 @@ const Auth = ({ register, login }) => {
           <div>
             <p>OR</p>
           </div>
+
+          {/* Google Login button */}
           <div className="w-full">
             <GoogleLogin
               onSuccess={(credentialResponse) => {
@@ -202,6 +219,7 @@ const Auth = ({ register, login }) => {
               }}
             />
           </div>
+
           <div className="w-full">
             {register ? (
               <p className="text-center">

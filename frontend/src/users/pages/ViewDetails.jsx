@@ -12,6 +12,7 @@ import { faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { toast } from "react-toastify";
 
 const ViewDetails = () => {
+  // accessing id from url
   const { id } = useParams();
   const navigate = useNavigate();
   const [taskDetails, setTaskDetails] = useState({});
@@ -21,10 +22,8 @@ const ViewDetails = () => {
   const [deleteStatus, setDeleteStatus] = useState([]);
   const [themeStatus, setThemeStatus] = useState("");
   const [theme, setTheme] = useState("");
-//   console.log(id);
-console.log(theme);
 
-
+  // dynamic status option
   const statusOption = [
     "All",
     "In Progress",
@@ -33,28 +32,32 @@ console.log(theme);
     "Not Completed",
   ];
 
+  // function for getting specific to do task
   const getATask = async () => {
     const token = localStorage.getItem("token");
     const reqHeader = {
       Authorization: `Bearer ${token}`,
     };
+
+    // API Call
     const result = await getATaskAPI(id, reqHeader);
-    // console.log(result);
     setTaskDetails(result.data);
   };
 
+  // function for changing date format
   const formatDate = (date) => {
     const formattedDate = new Date(date);
     return formattedDate.toLocaleDateString("IN");
   };
 
+  //   function for handling updation of task
   const handleUpdateTask = async () => {
     const token = localStorage.getItem("token");
     const reqHeader = {
       Authorization: `Bearer ${token}`,
     };
+    // API Call
     const result = await updateTaskAPI(taskDetails, reqHeader);
-    // console.log(result);
     if (result.status == 200) {
       toast("Task Updated!");
       setUpdateStatus(result);
@@ -62,13 +65,14 @@ console.log(theme);
     }
   };
 
+  //   function for handling Task deletion
   const handleDelete = async () => {
     const token = localStorage.getItem("token");
     const reqHeader = {
       Authorization: `Bearer ${token}`,
     };
+    // API Call
     const result = await deleteTaskAPI(id, reqHeader);
-    // console.log(result);
     if (result.status == 200) {
       navigate("/home");
       toast(result.data);
@@ -76,6 +80,7 @@ console.log(theme);
     }
   };
 
+  // function for accessing value/props from child component
   const getValueFromChild = (value) => {
     setThemeStatus(value);
   };
@@ -90,12 +95,18 @@ console.log(theme);
   return (
     <>
       <Header themeStatus={getValueFromChild} />
-      <div className={`h-screen flex justify-center items-center px-5 sm:px-10 md:px-20 ${theme=="Dark" ? "bg-black text-white": "bg-black/5"}`}>
-        <div className={`p-10 w-200 flex flex-col gap-5 ${theme=="Dark" ? "bg-white/10" : "bg-white"}`}>
+      <div
+        className={`h-screen flex justify-center items-center px-5 sm:px-10 md:px-20 ${theme == "Dark" ? "bg-black text-white" : "bg-black/5"}`}
+      >
+        <div
+          className={`p-10 w-200 flex flex-col gap-5 ${theme == "Dark" ? "bg-white/10" : "bg-white"}`}
+        >
           <h2 className="text-center  text-base sm:text-xl font-semibold">
             {taskDetails.title}
           </h2>
-          <div className={`h-20 bg-black/5 rounded overflow-y-scroll  ${theme=="Dark" ? "bg-black/40" : "bg-black/5"}`}>
+          <div
+            className={`h-20 bg-black/5 rounded overflow-y-scroll  ${theme == "Dark" ? "bg-black/40" : "bg-black/5"}`}
+          >
             <p className="text-center text-sm sm:text-base">Description :</p>
             <p className="text-center text-sm sm:text-base">
               {taskDetails.description}
@@ -127,10 +138,13 @@ console.log(theme);
           </div>
         </div>
       </div>
-      {/* <Footer /> */}
+
+      {/* modal for form handling of task updation */}
       {toggleUpdate && (
         <div className="bg-black/50 h-screen inset-0 fixed z-99 flex justify-center items-center">
-          <div className={`p-10 flex justify-center items-center flex-col ${theme=="Dark" ? "bg-[#2a2727] text-white":"bg-white"}`}>
+          <div
+            className={`p-10 flex justify-center items-center flex-col ${theme == "Dark" ? "bg-[#2a2727] text-white" : "bg-white"}`}
+          >
             <h2 className="text-2xl text-blue-400">Update Task</h2>
             <div className="pt-5">
               <input
@@ -170,7 +184,7 @@ console.log(theme);
                 <option
                   key={index}
                   value={option}
-                  className={`bg-black/10 px-5 py-2 w-50 hover:bg-black/25 duration-200 cursor-pointer ${theme=="Dark" && "text-black"}`}
+                  className={`bg-black/10 px-5 py-2 w-50 hover:bg-black/25 duration-200 cursor-pointer ${theme == "Dark" && "text-black"}`}
                 >
                   {option}
                 </option>
@@ -193,9 +207,13 @@ console.log(theme);
           </div>
         </div>
       )}
+
+      {/* confirmation modal for delete task */}
       {toggleDelete && (
         <div className="h-screen fixed inset-0 bg-black/50 z-99 flex justify-center items-center px-5 text-sm sm:text-base">
-          <div className={`p-5 flex flex-col justify-center items-center gap-3 rounded-lg ${theme=="Dark" ? "bg-[#2a2727] text-white":"bg-white"}`}>
+          <div
+            className={`p-5 flex flex-col justify-center items-center gap-3 rounded-lg ${theme == "Dark" ? "bg-[#2a2727] text-white" : "bg-white"}`}
+          >
             <p>Are You Sure You Want to Delete This Task?</p>
             <div className="flex justify-end items-center w-full">
               <button

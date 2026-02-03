@@ -13,12 +13,15 @@ const Header = ({themeStatus}) => {
   const [toggleTheme, setToggleTheme] = useState(false);
   const [theme, setTheme] = useState("Light");
 
+
+  // function to handle Log Out
   const handleLogout = () => {
     localStorage.removeItem("user");
     localStorage.removeItem("token");
     navigate("/login");
   };
 
+  // function to handle theme change (Dark/Light)
   const handleTheme = (theme) => {
     localStorage.setItem("theme", theme);
     themeStatus(theme)
@@ -49,6 +52,7 @@ const Header = ({themeStatus}) => {
           ToDL
         </a>
         <div>
+          {/* theme change button */}
           {toggleTheme ? (
             <button
               onClick={() => {

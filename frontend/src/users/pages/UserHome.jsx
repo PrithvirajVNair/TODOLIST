@@ -28,27 +28,25 @@ const UserHome = () => {
   const [themeStatus, setThemeStatus] = useState("");
   const [searchData, setSearchData] = useState("");
   const [theme, setTheme] = useState("");
-  console.log(theme);
-
   const [taskTitle, setTaskTitle] = useState({
     title: "",
   });
   const [allList, setAllList] = useState([]);
 
-  // console.log(taskTitle);
-  // console.log(updateTask);
-  // console.log(searchData);
-
+  // function for changing date format
   const formatDate = (date) => {
     const formattedDate = new Date(date);
     return formattedDate.toLocaleDateString("IN");
   };
 
+  // function to get all todo list created by authorized User
   const getTodoList = async () => {
     const token = localStorage.getItem("token");
+    // secret data
     const reqHeader = {
       Authorization: `Bearer ${token}`,
     };
+    //API Call
     const result = await getTaskAPI(searchData, reqHeader);
     if (result.status == 200) {
       if (filter == "All") {
@@ -59,15 +57,16 @@ const UserHome = () => {
     }
   };
 
+  // function for creating new task
   const handleCreateTask = async () => {
     const token = localStorage.getItem("token");
     const reqHeader = {
       Authorization: `Bearer ${token}`,
     };
+    //API Call
     const result = await createNewTaskAPI(taskTitle, reqHeader);
-    // console.log(result);
     if (result.status == 201) {
-      toast(result.data)
+      toast(result.data);
       setTaskTitle("");
       setToggleAdd(false);
       setCreateStatus(result);
@@ -76,6 +75,7 @@ const UserHome = () => {
     }
   };
 
+  //dynamic status options
   const statusOption = [
     "All",
     "In Progress",
@@ -84,6 +84,7 @@ const UserHome = () => {
     "Not Completed",
   ];
 
+  // for accessing current theme from child component
   const getValueFromChild = (value) => {
     setThemeStatus(value);
   };
@@ -97,10 +98,12 @@ const UserHome = () => {
 
   return (
     <>
+      {/* header with prop from header component */}
       <Header themeStatus={getValueFromChild} />
       <div
         className={`min-h-screen pt-20 px-5 sm:px-10 md:px-20 ${theme == "Dark" && "bg-black text-white"} `}
       >
+        {/* home */}
         <div className="flex justify-between items-center">
           <h1 className="sm:text-2xl md:text-3xl font-semibold text-blue-400 text-center">
             To Do List
@@ -116,12 +119,14 @@ const UserHome = () => {
           </div>
         </div>
 
-
+        {/* search bar and filter */}
         <div className="flex w-full justify-center items-center gap-3 sm:gap-5 mb-3">
-          <div className={`flex justify-center items-center bg-black/3 p-2 w-full rounded-lg ${theme=="Dark" && "bg-white/10 text-white placeholder:text-white"}`}>
+          <div
+            className={`flex justify-center items-center bg-black/3 p-2 w-full rounded-lg ${theme == "Dark" && "bg-white/10 text-white placeholder:text-white"}`}
+          >
             <FontAwesomeIcon
               icon={faMagnifyingGlass}
-              className={`text-black/50 text-sm sm:text-base ${theme=="Dark" && "text-white/50"}`}
+              className={`text-black/50 text-sm sm:text-base ${theme == "Dark" && "text-white/50"}`}
             />
             <input
               onChange={(e) => setSearchData(e.target.value)}
@@ -133,7 +138,7 @@ const UserHome = () => {
           <select
             value={filter}
             onChange={(e) => setFilter(e.target.value)}
-            className={`flex justify-center items-center gap-5 p-2 rounded-lg bg-black/3 focus:outline-none focus:ring-1 focus:ring-blue-400 appearance-none sm:pr-10 text-sm sm:text-base ${theme=="Dark" && "bg-white/10"}`}
+            className={`flex justify-center items-center gap-5 p-2 rounded-lg bg-black/3 focus:outline-none focus:ring-1 focus:ring-blue-400 appearance-none sm:pr-10 text-sm sm:text-base ${theme == "Dark" && "bg-white/10"}`}
           >
             {statusOption.map((option, index) => (
               <option
@@ -147,11 +152,14 @@ const UserHome = () => {
           </select>
         </div>
 
+        {/* Table for listing todo list */}
         <div className="pb-5">
           {allList?.length > 0 ? (
             <div className="rounded-xl overflow-hidden">
               <table className="w-full">
-                <thead className={`bg-black/5 hover:bg-black/6 ${theme=="Dark" && "bg-white/15 hover:bg-white/20"}`}>
+                <thead
+                  className={`bg-black/5 hover:bg-black/6 ${theme == "Dark" && "bg-white/15 hover:bg-white/20"}`}
+                >
                   <tr>
                     <th className="p-2 md:p-5 text-xs sm:text-base sm:block hidden">
                       #
@@ -164,11 +172,13 @@ const UserHome = () => {
                     <th className="p-2 md:p-5 text-xs sm:text-base">Details</th>
                   </tr>
                 </thead>
-                <tbody className={`text-center bg-black/3 ${theme=="Dark" && "bg-white/10"}`}>
+                <tbody
+                  className={`text-center bg-black/3 ${theme == "Dark" && "bg-white/10"}`}
+                >
                   {allList.map((list, index) => (
                     <tr
                       key={list._id}
-                      className={`border-b border-black/5 hover:bg-black/4 duration-300 ${theme=="Dark" && "border-white/5"}`}
+                      className={`border-b border-black/5 hover:bg-black/4 duration-300 ${theme == "Dark" && "border-white/5"}`}
                     >
                       <td className="p-2 md:p-4 text-xs sm:text-base sm:block hidden">
                         {index + 1}
@@ -187,15 +197,6 @@ const UserHome = () => {
                         {formatDate(list.createdAt)}
                       </td>
                       <td className="p-2 md:p-4">
-                        {/* <button
-                          onClick={() => {
-                            (setToggleUpdate(true), setUpdateTask(list));
-                          }}
-                          className="text-xs sm:text-base bg-orange-400 border text-white py-1 px-2 rounded hover:bg-orange-500  cursor-pointer duration-200 active:scale-97 me-3"
-                        >
-                          <FontAwesomeIcon icon={faPencil} />
-                          Edit
-                        </button> */}
                         <a
                           href={`/task/${list._id}/details`}
                           className="text-xs sm:text-base bg-blue-400 text-white py-1 px-2 rounded hover:bg-blue-500 cursor-pointer duration-200 active:scale-97"
@@ -218,10 +219,13 @@ const UserHome = () => {
           )}
         </div>
       </div>
-      {/* <Footer /> */}
+
+      {/* modal for form handling of new task */}
       {toggleAdd && (
         <div className="bg-black/50 h-screen inset-0 fixed z-99 flex justify-center items-center">
-          <div className={`p-10 flex justify-center items-center flex-col ${theme=="Dark" ? "bg-[#2a2727] text-white":"bg-white"}`}>
+          <div
+            className={`p-10 flex justify-center items-center flex-col ${theme == "Dark" ? "bg-[#2a2727] text-white" : "bg-white"}`}
+          >
             <h2 className="text-2xl text-blue-400">Create New Task</h2>
             <div className="pt-5">
               <input

@@ -25,7 +25,6 @@ exports.createTaskController = async (req, res) => {
 exports.getTasksController = async (req, res) => {
     const email = req.payload
     const searchData = req.query.search
-    // console.log(searchData);
     const query = {
         title:{
             $regex:searchData,$options:"i"
@@ -44,7 +43,7 @@ exports.getTasksController = async (req, res) => {
     }
 }
 
-// controller for reading/get existing task
+// controller for reading/get a specific task
 exports.getATasksController = async (req, res) => {
     const email = req.payload
     const {id} = req.params
@@ -63,7 +62,7 @@ exports.getATasksController = async (req, res) => {
 
 // controller for updating existing task
 exports.updateTaskController = async (req, res) => {
-    const { _id, title, status, userId, description } = req.body
+    const { _id, title, status, description } = req.body
     const email = req.payload
     try {
         const currentUser = await users.findOne({ email })

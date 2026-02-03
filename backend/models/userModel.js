@@ -21,5 +21,6 @@ const userSchema = new mongoose.Schema({
     }
 })
 
+// model creation
 const users = mongoose.model("users",userSchema)
 module.exports = users

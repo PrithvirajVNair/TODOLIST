@@ -40,7 +40,7 @@ export const updateTaskAPI = async(reqBody,reqHeader) => {
     return await commonAPI("PUT",`${serverURL}/update-task`,reqBody,reqHeader)
 }
 
-// create new task API
+// delete A task API
 export const deleteTaskAPI = async(id,reqHeader) => {
     return await commonAPI("DELETE",`${serverURL}/delete-task/${id}`,"",reqHeader)
 }
