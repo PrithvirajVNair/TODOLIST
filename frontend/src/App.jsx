@@ -5,6 +5,7 @@ import UserHome from "./users/pages/UserHome";
 import ViewDetails from "./users/pages/ViewDetails";
 import { Bounce, ToastContainer } from 'react-toastify';
 import { useEffect, useState } from "react";
+import Pnf from "./pages/Pnf";
 
 function App() {
   return (
@@ -17,6 +18,8 @@ function App() {
 
         <Route path="/home" element={<UserHome />} />
         <Route path="/task/:id/details" element={<ViewDetails />} />
+
+        <Route path="/*" element={<Pnf/>} />
       </Routes>
 
       {/* Toast Container for accessing toast accross all components */}
