@@ -9,6 +9,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { toast } from "react-toastify";
 
 const ViewDetails = () => {
   const { id } = useParams();
@@ -55,7 +56,7 @@ console.log(theme);
     const result = await updateTaskAPI(taskDetails, reqHeader);
     // console.log(result);
     if (result.status == 200) {
-      alert("Task Updated!");
+      toast("Task Updated!");
       setUpdateStatus(result);
       setToggleUpdate(false);
     }
@@ -70,7 +71,7 @@ console.log(theme);
     // console.log(result);
     if (result.status == 200) {
       navigate("/home");
-      alert(result.data);
+      toast(result.data);
       setDeleteStatus(result);
     }
   };

@@ -18,6 +18,7 @@ import {
   updateTaskAPI,
 } from "../../services/allAPIs";
 import Footer from "../components/Footer";
+import { toast } from "react-toastify";
 
 const UserHome = () => {
   const [filter, setFilter] = useState("All");
@@ -49,7 +50,6 @@ const UserHome = () => {
       Authorization: `Bearer ${token}`,
     };
     const result = await getTaskAPI(searchData, reqHeader);
-    // console.log(result);
     if (result.status == 200) {
       if (filter == "All") {
         setAllList(result.data);
@@ -67,12 +67,12 @@ const UserHome = () => {
     const result = await createNewTaskAPI(taskTitle, reqHeader);
     // console.log(result);
     if (result.status == 201) {
-      alert(result.data);
+      toast(result.data)
       setTaskTitle("");
       setToggleAdd(false);
       setCreateStatus(result);
     } else {
-      alert("Something Went Wrong");
+      toast("Something Went Wrong");
     }
   };
 
@@ -147,9 +147,9 @@ const UserHome = () => {
           </select>
         </div>
 
-        <div>
+        <div className="pb-5">
           {allList?.length > 0 ? (
-            <div className="rounded-xl overflow-hidden pb-5">
+            <div className="rounded-xl overflow-hidden">
               <table className="w-full">
                 <thead className={`bg-black/5 hover:bg-black/6 ${theme=="Dark" && "bg-white/15 hover:bg-white/20"}`}>
                   <tr>

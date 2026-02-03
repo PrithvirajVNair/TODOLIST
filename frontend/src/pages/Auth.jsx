@@ -8,6 +8,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
+import { toast } from "react-toastify";
 
 const Auth = ({ register, login }) => {
   const navigate = useNavigate();
@@ -24,7 +25,7 @@ const Auth = ({ register, login }) => {
     const result = await userRegisterAPI(userDetails);
     console.log(result);
     if (result.status == 200) {
-      alert(result.data);
+      toast(result.data);
       setUserDetails({
         username: "",
         email: "",
@@ -32,14 +33,14 @@ const Auth = ({ register, login }) => {
       });
       navigate("/login");
     } else if (result.status == 409) {
-      alert(result.response.data);
+      toast(result.response.data);
       setUserDetails({
         username: "",
         email: "",
         password: "",
       });
     } else {
-      alert("Something Went Wrong! Please Try Again...");
+      toast("Something Went Wrong! Please Try Again...");
       setUserDetails({
         username: "",
         email: "",
@@ -54,7 +55,7 @@ const Auth = ({ register, login }) => {
     if (result.status == 200) {
       localStorage.setItem("token", result.data.token);
       localStorage.setItem("user", JSON.stringify(result.data.user));
-      alert(result.data.message);
+      toast(result.data.message);
       setUserDetails({
         username: "",
         email: "",
@@ -62,21 +63,21 @@ const Auth = ({ register, login }) => {
       });
       navigate("/Home");
     } else if (result.status == 404) {
-      alert(result.response.data);
+      toast(result.response.data);
       setUserDetails({
         username: "",
         email: "",
         password: "",
       });
     } else if (result.status == 401) {
-      alert(result.response.data);
+      toast(result.response.data);
       setUserDetails({
         username: "",
         email: "",
         password: "",
       });
     } else {
-      alert("Something Went Wrong! Please Try Again...");
+      toast("Something Went Wrong! Please Try Again...");
       setUserDetails({
         username: "",
         email: "",
@@ -97,7 +98,7 @@ const Auth = ({ register, login }) => {
     if (result.status == 200) {
       localStorage.setItem("token", result.data.token);
       localStorage.setItem("user", JSON.stringify(result.data.user));
-      alert("Login Successful!");
+      toast("Login Successful!");
       setUserDetails({
         username: "",
         email: "",
