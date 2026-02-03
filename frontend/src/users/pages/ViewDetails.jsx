@@ -54,16 +54,23 @@ const ViewDetails = () => {
 
   //   function for handling updation of task
   const handleUpdateTask = async () => {
-    const token = localStorage.getItem("token");
-    const reqHeader = {
-      Authorization: `Bearer ${token}`,
-    };
-    // API Call
-    const result = await updateTaskAPI(taskDetails, reqHeader);
-    if (result.status == 200) {
-      toast("Task Updated!");
-      setUpdateStatus(result);
-      setToggleUpdate(false);
+    const { title, description } = taskDetails;
+    if (!title) {
+      toast("Title Should not be Empty!");
+    } else if (!description) {
+      toast("Description Should not be Empty!");
+    } else {
+      const token = localStorage.getItem("token");
+      const reqHeader = {
+        Authorization: `Bearer ${token}`,
+      };
+      // API Call
+      const result = await updateTaskAPI(taskDetails, reqHeader);
+      if (result.status == 200) {
+        toast("Task Updated!");
+        setUpdateStatus(result);
+        setToggleUpdate(false);
+      }
     }
   };
 

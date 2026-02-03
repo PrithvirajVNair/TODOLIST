@@ -24,66 +24,84 @@ const Auth = ({ register, login }) => {
 
   //   function for User Registration
   const handleRegister = async () => {
-    const result = await userRegisterAPI(userDetails);
-    if (result.status == 200) {
-      toast(result.data);
-      setUserDetails({
-        username: "",
-        email: "",
-        password: "",
-      });
-      navigate("/login");
-    } else if (result.status == 409) {
-      toast(result.response.data);
-      setUserDetails({
-        username: "",
-        email: "",
-        password: "",
-      });
+    const { email, password, username } = userDetails;
+    if (!username || !email || !password) {
+      toast("Please Fill All Fields!");
     } else {
-      toast("Something Went Wrong! Please Try Again...");
-      setUserDetails({
-        username: "",
-        email: "",
-        password: "",
-      });
+      if (!email.endsWith("@gmail.com")) {
+        toast("Please Enter Valid a Email!");
+      } else {
+        const result = await userRegisterAPI(userDetails);
+        if (result.status == 200) {
+          toast(result.data);
+          setUserDetails({
+            username: "",
+            email: "",
+            password: "",
+          });
+          navigate("/login");
+        } else if (result.status == 409) {
+          toast(result.response.data);
+          setUserDetails({
+            username: "",
+            email: "",
+            password: "",
+          });
+        } else {
+          toast("Something Went Wrong! Please Try Again...");
+          setUserDetails({
+            username: "",
+            email: "",
+            password: "",
+          });
+        }
+      }
     }
   };
 
   // function for user login
   const handleLogin = async () => {
-    const result = await userLoginAPI(userDetails);
-    if (result.status == 200) {
-      localStorage.setItem("token", result.data.token);
-      localStorage.setItem("user", JSON.stringify(result.data.user));
-      toast(result.data.message);
-      setUserDetails({
-        username: "",
-        email: "",
-        password: "",
-      });
-      navigate("/Home");
-    } else if (result.status == 404) {
-      toast(result.response.data);
-      setUserDetails({
-        username: "",
-        email: "",
-        password: "",
-      });
-    } else if (result.status == 401) {
-      toast(result.response.data);
-      setUserDetails({
-        username: "",
-        email: "",
-        password: "",
-      });
+    const { email, password } = userDetails;
+    if (!email || !password) {
+      toast("Please Fill All Fields!");
     } else {
-      toast("Something Went Wrong! Please Try Again...");
-      setUserDetails({
-        username: "",
-        email: "",
-        password: "",
-      });
+      if (!email.endsWith("@gmail.com")) {
+        toast("Please Enter Valid a Email!");
+      } else {
+        const result = await userLoginAPI(userDetails);
+        if (result.status == 200) {
+          localStorage.setItem("token", result.data.token);
+          localStorage.setItem("user", JSON.stringify(result.data.user));
+          toast(result.data.message);
+          setUserDetails({
+            username: "",
+            email: "",
+            password: "",
+          });
+          navigate("/Home");
+        } else if (result.status == 404) {
+          toast(result.response.data);
+          setUserDetails({
+            username: "",
+            email: "",
+            password: "",
+          });
+        } else if (result.status == 401) {
+          toast(result.response.data);
+          setUserDetails({
+            username: "",
+            email: "",
+            password: "",
+          });
+        } else {
+          toast("Something Went Wrong! Please Try Again...");
+          setUserDetails({
+            username: "",
+            email: "",
+            password: "",
+          });
+        }
+      }
     }
   };
 
@@ -114,8 +132,8 @@ const Auth = ({ register, login }) => {
     if (localStorage.getItem("theme")) {
       setTheme(localStorage.getItem("theme"));
     }
-    if(localStorage.getItem("token")){
-        navigate('/home')
+    if (localStorage.getItem("token")) {
+      navigate("/home");
     }
   }, []);
 

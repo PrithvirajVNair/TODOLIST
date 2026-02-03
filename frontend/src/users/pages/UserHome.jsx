@@ -88,19 +88,24 @@ const UserHome = () => {
 
   // function for creating new task
   const handleCreateTask = async () => {
-    const token = localStorage.getItem("token");
-    const reqHeader = {
-      Authorization: `Bearer ${token}`,
-    };
-    //API Call
-    const result = await createNewTaskAPI(taskTitle, reqHeader);
-    if (result.status == 201) {
-      toast(result.data);
-      setTaskTitle("");
-      setToggleAdd(false);
-      setCreateStatus(result);
+    const { title } = taskTitle;
+    if (!title) {
+      toast("Title Should not be Empty!");
     } else {
-      toast("Something Went Wrong");
+      const token = localStorage.getItem("token");
+      const reqHeader = {
+        Authorization: `Bearer ${token}`,
+      };
+      //API Call
+      const result = await createNewTaskAPI(taskTitle, reqHeader);
+      if (result.status == 201) {
+        toast(result.data);
+        setTaskTitle("");
+        setToggleAdd(false);
+        setCreateStatus(result);
+      } else {
+        toast("Something Went Wrong");
+      }
     }
   };
 
