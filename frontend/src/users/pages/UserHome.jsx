@@ -311,7 +311,7 @@ const UserHome = () => {
                   setTaskTitle({ ...taskTitle, description: e.target.value })
                 }
                 className={`w-full  px-2 rounded outline-0 ${theme=="Dark"?"bg-white/5":"bg-black/5"}`}
-                placeholder="Title"
+                placeholder="Description"
                 type="text"
               />
             </div>

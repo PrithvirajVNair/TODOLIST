@@ -177,7 +177,7 @@ const ViewDetails = () => {
                   className={`h-20 rounded-xl overflow-y-scroll  ${theme == "Dark" ? "bg-black/40" : "bg-white"}`}
                 >
                   <p className="text-xs p-2 sm:text-base">
-                    {taskDetails.description}
+                    {taskDetails.description || "Description..."}
                   </p>
                 </div>
               </div>

@@ -4,6 +4,8 @@ const users = require("../models/userModel")
 // controller for creating a new task
 exports.createTaskController = async (req, res) => {
     const { title, description } = req.body
+    console.log(req.body);
+    
     const email = req.payload
     try {
         const currentUser = await users.findOne({ email })
@@ -18,6 +20,8 @@ exports.createTaskController = async (req, res) => {
     }
     catch (err) {
         res.status(500).json(err)
+        console.log(err);
+        
     }
 }
 
