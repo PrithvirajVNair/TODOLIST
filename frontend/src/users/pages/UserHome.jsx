@@ -31,6 +31,7 @@ const UserHome = () => {
   const [theme, setTheme] = useState("");
   const [taskTitle, setTaskTitle] = useState({
     title: "",
+    description:""
   });
   const [allList, setAllList] = useState([]);
 
@@ -289,7 +290,7 @@ const UserHome = () => {
       {toggleAdd && (
         <div className="bg-black/50 h-screen inset-0 fixed z-99 flex justify-center items-center">
           <div
-            className={`p-10 flex justify-center items-center flex-col ${theme == "Dark" ? "bg-[#2a2727] text-white" : "bg-white"}`}
+            className={`p-10 flex justify-center border items-center rounded-xl flex-col backdrop-blur-3xl ${theme == "Dark" ? "bg-[#2a2727]/10 border-white/10 text-white" : "bg-white"}`}
           >
             <h2 className="text-2xl text-blue-400">Create New Task</h2>
             <div className="pt-5">
@@ -298,7 +299,18 @@ const UserHome = () => {
                 onChange={(e) =>
                   setTaskTitle({ ...taskTitle, title: e.target.value })
                 }
-                className="w-full bg-black/5 px-2"
+                className={`w-full  px-2 rounded outline-0 ${theme=="Dark"?"bg-white/5":"bg-black/5"}`}
+                placeholder="Title"
+                type="text"
+              />
+            </div>
+            <div className="pt-5">
+              <input
+                value={taskTitle.description}
+                onChange={(e) =>
+                  setTaskTitle({ ...taskTitle, description: e.target.value })
+                }
+                className={`w-full  px-2 rounded outline-0 ${theme=="Dark"?"bg-white/5":"bg-black/5"}`}
                 placeholder="Title"
                 type="text"
               />

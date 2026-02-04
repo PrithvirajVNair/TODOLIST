@@ -124,7 +124,7 @@ const ViewDetails = () => {
               </div>
             </div>
             <div
-              className={`p-5 md:p-10 w-full flex flex-col gap-5 rounded-b-xl ${theme == "Dark" ? "bg-white/10" : "bg-white"}`}
+              className={`p-5 md:p-10 w-full flex flex-col gap-3 sm:gap-5 rounded-b-xl ${theme == "Dark" ? "bg-white/10" : "bg-white"}`}
             >
               <div className="grid md:grid-cols-3 text-xs sm:text-base">
                 <div
@@ -164,19 +164,19 @@ const ViewDetails = () => {
                   className={`p-5 m-1 md:m-3 border rounded-xl bg-black/2 overflow-x-hidden  ${theme == "Dark" ? "border-white/10" : "border-black/10"}`}
                 >
                   <p>Task ID</p>
-                  <p className=" rounded-xl mt-3 truncate">
+                  <p className=" rounded-xl mt-3 truncate text-red-400">
                     #{taskDetails._id}
                   </p>
                 </div>
               </div>
               <p className="text-sm sm:text-base">Description :</p>
               <div
-                className={`p-5 bg-black/2 border rounded-xl ${theme == "Dark" ? "border-white/10" : "border-black/10"}`}
+                className={`p-2 sm:p-5 bg-black/2 border rounded-xl ${theme == "Dark" ? "border-white/10" : "border-black/10"}`}
               >
                 <div
                   className={`h-20 rounded-xl overflow-y-scroll  ${theme == "Dark" ? "bg-black/40" : "bg-white"}`}
                 >
-                  <p className="text-xs p-1 sm:text-base">
+                  <p className="text-xs p-2 sm:text-base">
                     {taskDetails.description}
                   </p>
                 </div>
@@ -220,16 +220,16 @@ const ViewDetails = () => {
       {toggleUpdate && (
         <div className="bg-black/50 h-screen inset-0 fixed z-99 flex justify-center items-center">
           <div
-            className={`p-10 flex justify-center items-center flex-col ${theme == "Dark" ? "bg-[#2a2727] text-white" : "bg-white"}`}
+            className={`p-10 flex justify-center border items-center rounded-xl flex-col backdrop-blur-3xl ${theme == "Dark" ? "bg-[#2a2727]/10 border-white/10 text-white" : "bg-white"}`}
           >
-            <h2 className="text-2xl text-blue-400">Update Task</h2>
+            <h2 className="text-2xl text-blue-400 font-semibold">Update Task</h2>
             <div className="pt-5">
               <input
                 value={taskDetails.title}
                 onChange={(e) =>
                   setTaskDetails({ ...taskDetails, title: e.target.value })
                 }
-                className="w-full bg-black/5 px-2  outline-0"
+                className={`w-full  px-2 rounded outline-0 ${theme=="Dark"?"bg-white/5":"bg-black/5"}`}
                 placeholder="Title"
                 type="text"
               />
@@ -243,7 +243,7 @@ const ViewDetails = () => {
                     description: e.target.value,
                   })
                 }
-                className="w-full bg-black/5 px-2  outline-0"
+                className={`w-full  px-2 rounded outline-0 ${theme=="Dark"?"bg-white/5":"bg-black/5"}`}
                 placeholder="Title"
                 type="text"
               />
@@ -253,7 +253,7 @@ const ViewDetails = () => {
               onChange={(e) =>
                 setTaskDetails({ ...taskDetails, status: e.target.value })
               }
-              className="w-full mt-5 outline-0"
+              className={`w-full mt-5 px-2 rounded outline-0 ${theme=="Dark"?"bg-white/5":"bg-black/5"}`}
               name=""
               id=""
             >

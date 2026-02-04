@@ -3,7 +3,7 @@ const users = require("../models/userModel")
 
 // controller for creating a new task
 exports.createTaskController = async (req, res) => {
-    const { title } = req.body
+    const { title, description } = req.body
     const email = req.payload
     try {
         const currentUser = await users.findOne({ email })
@@ -11,7 +11,7 @@ exports.createTaskController = async (req, res) => {
             return res.status(404).json("User Not Found!")
         }
         const newTask = new tasks({
-            title, userId: currentUser._id
+            title, description, userId: currentUser._id
         })
         await newTask.save()
         res.status(201).json("Task Created Successful!")

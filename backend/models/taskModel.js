@@ -19,7 +19,7 @@ const taskSchema = new mongoose.Schema({
     description:{
         type:String,
         required:true,
-        default:"TASK"
+        default:"Description..."
     },
     createdAt:{
         type:Date,
