@@ -230,7 +230,7 @@ const UserHome = () => {
                           </td>
                           <td className="p-2 md:p-4">
                             <p
-                              className={`inline-block px-0.5 sm:p-2 md:p-1 rounded-xl ${list.status == "In Progress" ? "bg-blue-400/20 text-blue-400" : list.status == "On Hold" ? "bg-yellow-400/20 text-yellow-400" : list.status == "Completed" ? "bg-green-400/20 text-green-400" : "bg-red-400/20 text-red-400"} text-xs sm:text-base overflow-hidden text-ellipsis whitespace-nowrap`}
+                              className={`inline-block py-1 px-1 w-25 sm:w-32 md:w-35 sm:px-2 rounded-lg ${list.status == "In Progress" ? "bg-blue-400/20 text-blue-400" : list.status == "On Hold" ? "bg-yellow-400/20 text-yellow-400" : list.status == "Completed" ? "bg-green-400/20 text-green-400" : "bg-red-400/20 text-red-400"} text-xs sm:text-base overflow-hidden text-ellipsis whitespace-nowrap`}
                             >
                               {list.status}
                             </p>
