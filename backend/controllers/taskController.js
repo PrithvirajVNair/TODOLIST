@@ -3,8 +3,7 @@ const users = require("../models/userModel")
 
 // controller for creating a new task
 exports.createTaskController = async (req, res) => {
-    const { title, description } = req.body
-    console.log(req.body);
+    let { title, description, dueDate } = req.body
     
     const email = req.payload
     try {
@@ -12,8 +11,11 @@ exports.createTaskController = async (req, res) => {
         if (!currentUser) {
             return res.status(404).json("User Not Found!")
         }
+        if(!dueDate || dueDate==""){
+            dueDate= Date.now()
+        }
         const newTask = new tasks({
-            title, description, userId: currentUser._id
+            title, description, userId: currentUser._id, dueDate
         })
         await newTask.save()
         res.status(201).json("Task Created Successful!")
@@ -66,8 +68,8 @@ exports.getATasksController = async (req, res) => {
 
 // controller for updating existing task
 exports.updateTaskController = async (req, res) => {
-    const { _id, title, status, description } = req.body
-    const email = req.payload
+    const { _id, title, status, description, dueDate } = req.body
+    const email = req.payload    
     try {
         const currentUser = await users.findOne({ email })
         const updateTask = await tasks.findOne({ _id: _id })
@@ -83,6 +85,7 @@ exports.updateTaskController = async (req, res) => {
         updateTask.title = title
         updateTask.status = status
         updateTask.description = description
+        updateTask.dueDate = dueDate
         updateTask.updatedAt= Date.now()
         await updateTask.save()
         res.status(200).json("Task Updated!!")

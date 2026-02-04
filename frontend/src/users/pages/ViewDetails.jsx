@@ -29,7 +29,7 @@ const ViewDetails = () => {
   const [themeStatus, setThemeStatus] = useState("");
   const [theme, setTheme] = useState("");
   const [loading, setLoading] = useState(true);
-
+    
   // dynamic status option
   const statusOption = ["In Progress", "On Hold", "Completed", "Not Completed"];
 
@@ -116,8 +116,11 @@ const ViewDetails = () => {
                 <p className="text-white me-3">
                   Created: {formatDate(taskDetails.createdAt)}
                 </p>
-                <p className="text-white">
+                <p className="text-white me-3">
                   Last updated: {format(taskDetails.updatedAt)}
+                </p>
+                <p className="text-white">
+                  Due Date: <span className="text-red-400">{formatDate(taskDetails.dueDate)}</span>
                 </p>
               </div>
             </div>
@@ -221,7 +224,7 @@ const ViewDetails = () => {
             className={`p-10 flex justify-center border items-center rounded-xl flex-col backdrop-blur-3xl ${theme == "Dark" ? "bg-[#2a2727]/10 border-white/10 text-white" : "bg-white"}`}
           >
             <h2 className="text-2xl text-blue-400 font-semibold">Update Task</h2>
-            <div className="pt-5">
+            <div className="pt-5 w-full">
               <input
                 value={taskDetails.title}
                 onChange={(e) =>
@@ -232,7 +235,7 @@ const ViewDetails = () => {
                 type="text"
               />
             </div>
-            <div className="pt-5">
+            <div className="pt-5 w-full">
               <input
                 value={taskDetails.description}
                 onChange={(e) =>
@@ -244,6 +247,19 @@ const ViewDetails = () => {
                 className={`w-full  px-2 rounded outline-0 ${theme=="Dark"?"bg-white/5":"bg-black/5"}`}
                 placeholder="Description"
                 type="text"
+              />
+            </div>
+            <div className="pt-5 w-full flex whitespace-nowrap">
+              <label className={`me-2 ${theme=="Dark"?"text-white/60":"text-black/60"}`} htmlFor="due">Due Date :</label>
+              <input
+                id="due"
+                value={taskDetails?.dueDate?.split("T")[0]}
+                onChange={(e) =>
+                  setTaskDetails({ ...taskDetails, dueDate: e.target.value })
+                }
+                className={`w-full  px-2 rounded outline-0 ${theme=="Dark"?"bg-white/5":"bg-black/5"}`}
+                placeholder="Description"
+                type="date"
               />
             </div>
             <select
