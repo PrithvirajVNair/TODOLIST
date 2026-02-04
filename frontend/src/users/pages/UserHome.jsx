@@ -225,7 +225,7 @@ const UserHome = () => {
                           <td className="p-2 md:p-4 text-xs sm:text-base sm:block hidden">
                             {index + 1}
                           </td>
-                          <td className="p-2 md:p-4 text-xs sm:text-base text-ellipsis">
+                          <td className="p-2 md:p-4 text-xs sm:text-base truncate">
                             {list.title}
                           </td>
                           <td className="p-2 md:p-4">
