@@ -76,7 +76,7 @@ const Header = ({themeStatus}) => {
           )}
           <button
             onClick={handleLogout}
-            className="bg-blue-400 text-white py-1 px-2 rounded hover:bg-blue-500 cursor-pointer duration-200 active:scale-97 text-sm sm:text-base"
+            className="bg-blue-400 text-white py-1 px-2 rounded hover:bg-blue-500 cursor-pointer duration-200 active:scale-97 text-xs sm:text-base"
           >
             <FontAwesomeIcon icon={faArrowRightFromBracket} className="me-1" />
             Log Out
