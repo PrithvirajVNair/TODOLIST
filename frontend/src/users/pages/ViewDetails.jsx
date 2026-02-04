@@ -55,11 +55,9 @@ const ViewDetails = () => {
 
   //   function for handling updation of task
   const handleUpdateTask = async () => {
-    const { title, description } = taskDetails;
+    const { title } = taskDetails;
     if (!title) {
       toast("Title Should not be Empty!");
-    } else if (!description) {
-      toast("Description Should not be Empty!");
     } else {
       const token = localStorage.getItem("token");
       const reqHeader = {
@@ -244,7 +242,7 @@ const ViewDetails = () => {
                   })
                 }
                 className={`w-full  px-2 rounded outline-0 ${theme=="Dark"?"bg-white/5":"bg-black/5"}`}
-                placeholder="Title"
+                placeholder="Description"
                 type="text"
               />
             </div>
